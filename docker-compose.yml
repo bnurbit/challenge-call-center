@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+    maria-db-server:
+        image: "mariadb"
+        ports:
+            - 9001:3306
+        restart: always
+        environment:
+            MYSQL_DATABASE: callsdb
+            MYSQL_ROOT_PASSWORD: rootpwd
+        volumes:
+            - db_data:/var/lib/mysql
+        
+    call-center-server:
+        image: "call-center-server"
+        ports:
+            - 9000:9000
+        restart: always
+        environment:
+            SPRING_DATASOURCE_URL: "jdbc:mariadb://maria-db-server:3306/callsdb"
+        depends_on:
+            - maria-db-server
+
+volumes:
+    db_data:
+        driver: local

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Call Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h1>Call Service</h1>
+    <hr>
+    <h2>Register Call</h2>
+    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3"> Return to Call List </a>
+
+    <form action="#" th:action="@{/create}" th:object="${callInput}" method="POST">
+        <label for="phone1">Caller Number</label>
+        <input required="required" type="tel" id="phone1" name="phone" th:field="*{callerNumber}"
+               placeholder="Caller Number" class="form-control mb-4 col-4">
+
+        <label for="phone2">Callee Number</label>
+        <input required="required" type="tel" id="phone2" name="phone" th:field="*{calleeNumber}"
+               placeholder="Callee Number" class="form-control mb-4 col-4">
+
+        <input type="radio" th:field="*{type}" id="inbound" name="Inbound" value="Inbound" checked>
+        <label for="inbound">Inbound</label>
+
+        <input type="radio" th:field="*{type}" id="outbound" name="Outbound" value="Outbound">
+        <label for="outbound">Outbound</label>
+
+        <br/>
+
+        <label for="date1">Start Time</label>
+        <input required="required" id="date1" step=1 th:field="*{startTime}"
+               placeholder="Start Time" class="form-control mb-4 col-4">
+
+        <label for="date2">End Time</label>
+        <input required="required" id="date2" step=1 th:field="*{endTime}"
+               placeholder="End Time" class="form-control mb-4 col-4">
+
+        <button type="submit" class="btn btn-primary btn-sm mb-3">Register</button>
+    </form>
+
+    <form action="#" th:action="@{/createMany}" method="POST">
+        <label for="textarea">Register calls as JSON</label>
+        <textarea required="required" rows = "20" cols = "100" placeholder="Enter JSON request..." th:value="${callInputJSON}" id="textarea" name="callInputJSON" class="form-control mb-4 col-4"></textarea>
+        <button type="submit" class="btn btn-primary btn-sm mb-3">Register as JSON</button>
+    </form>
+</div>
+</body>
+</html>

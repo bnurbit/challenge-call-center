@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Call Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-5">
+    <h1>Call Service</h1>
+    <a th:href="@{/createForm}" class="btn btn-primary btn-sm mb-3"> Register Call</a>
+    <a th:href="@{/statistics}" class="btn btn-primary btn-sm mb-3"> View Statistics</a>
+    <a th:href="@{/generate}" class="btn btn-primary btn-sm mb-3"> Generate 1000 Records</a>
+    <a th:href="@{/clear}" class="btn btn-primary btn-sm mb-3"> Clear All Data</a>
+
+    <h3>Call Records</h3>
+
+    <table border="1" class="table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=${type}, reverseSort=!${reverseSort}, sortFields=id)}">ID</a>
+            </th>
+            <th>
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=${type}, reverseSort=!${reverseSort}, sortFields=callerNumber)}">Caller
+                    Number</a></th>
+            <th>
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=${type}, reverseSort=!${reverseSort}, sortFields=calleeNumber)}">Callee
+                    Number</a></th>
+            <th>
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=${type}, reverseSort=!${reverseSort}, sortFields=startTime)}">Start
+                    Time</a></th>
+            <th>
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=${type}, reverseSort=!${reverseSort}, sortFields=endTime)}">End
+                    Time</a></th>
+            <th>
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=${type}, reverseSort=!${reverseSort}, sortFields=type)}">Type</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="call : ${callsData}">
+            <td th:text="${call.id}"></td>
+            <td th:text="${call.callerNumber}"></td>
+            <td th:text="${call.calleeNumber}"></td>
+            <td th:text="${#dates.format(call.startTime, 'dd-MM-yyyy HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(call.endTime, 'dd-MM-yyyy HH:mm:ss')}"></td>
+            <td th:text="${call.type}"></td>
+            <td><a th:href="@{/delete/{id}(id=${call.id})}" class="btn btn-primary"><i
+                    class="fas fa-user-times ml-2"></i></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-3">
+                Total rows: [[${totalItems}]]
+            </div>
+        </div>
+        <div class="row col-sm-10">
+            <div class="col-sm-10">
+                Type filter:
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=null, reverseSort=${reverseSort}, sortFields=id)}">Show
+                    all</a> |
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=Inbound, reverseSort=${reverseSort}, sortFields=id)}">Show
+                    Inbound</a> |
+                <a th:href="@{/list(pageNumber=${currentPage}, pageSize=${currentPageSize}, type=Outbound, reverseSort=${reverseSort}, sortFields=id)}">Show
+                    Outbound</a>
+            </div>
+        </div>
+
+        <div class="row col-sm-10">
+            <div class="col-sm-10">
+                Pagination:
+                <a th:href="@{/list(pageNumber=0, pageSize=10, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">10</a>
+                <a th:href="@{/list(pageNumber=0, pageSize=25, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">25</a>
+                <a th:href="@{/list(pageNumber=0, pageSize=50, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">50</a>
+                <a th:href="@{/list(pageNumber=0, pageSize=100, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">100</a> |
+
+                <a th:if="${currentPage != 0}"
+                   th:href="@{/list(pageNumber=0, pageSize=${currentPageSize}, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">First</a>
+
+                <a th:if="${currentPage != 0}"
+                   th:href="@{/list(pageNumber=${currentPage - 1}, pageSize=${currentPageSize}, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">Previous</a>
+
+                <a th:if="${currentPage != totalPages -1}"
+                   th:href="@{/list(pageNumber=${currentPage + 1}, pageSize=${currentPageSize}, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">Next</a>
+
+                <a th:if="${currentPage != totalPages -1}"
+                   th:href="@{/list(pageNumber=${totalPages - 1}, pageSize=${currentPageSize}, type=${type}, reverseSort=${reverseSort}, sortFields=${sortFields})}">Last</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
